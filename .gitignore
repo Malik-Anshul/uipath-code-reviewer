@@ -1,0 +1,12 @@
+# Environment variables - NEVER push this
+.env
+
+# Virtual environment - no need to push
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# VS Code settings
+.vscode/
