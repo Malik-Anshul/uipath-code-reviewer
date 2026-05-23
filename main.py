@@ -3,16 +3,18 @@ import json
 from groq import Groq
 from dotenv import load_dotenv
 from src.agent import CodeReviewAgent
+from src.tools import read_file
 
+# for user input of code
 def get_code_input():
     print("\nPaste your UiPath code below")
-    print("When done → type 'END' on a new line and press Enter")
+    print("When done → type 'end' on a new line and press Enter")
     print("-"*50)
     
     lines = []
     while True:
         line = input()
-        if line.strip() == "END":
+        if line.strip().lower() == "end":
             break
         lines.append(line)
     
@@ -47,12 +49,30 @@ def main():
         choice = input("\nEnter choice (1/2/3): ").strip()
 
         if choice == "1":
-            code = get_code_input()
-            if not code.strip():
-                print("❌ No code entered")
+            print("\n1 → Paste the direct code")
+            print("2 → Paste the file path")
+            sub_choice = input("\nEnter choice (1/2): ").strip()
+
+            if sub_choice == "1":
+                code = get_code_input()
+                if not code.strip():
+                    print("❌ No code entered")
+                    continue
+
+            elif sub_choice == "2":
+                file_path = input("\nEnter file path: ").strip()
+                success, code = read_file(file_path)
+                if not success:
+                    print(f"❌ {code}")
+                    continue
+
+            else:
+                print("❌ Invalid choice")
                 continue
+
             print("\n⏳ Reviewing your code...")
             review = agent.code_review(code)
+
             print("\n" + "="*50)
             print(f"⭐ Overall Score: {review['overall_score']}/10")
             print(f"📝 Summary: {review['summary']}")
@@ -71,7 +91,7 @@ def main():
             print("="*50)
 
         elif choice == "2":
-            print(f"DEBUG: {review['overall_score']}")
+            print(agent.history)
             agent.clear_history()
 
         elif choice == "3":

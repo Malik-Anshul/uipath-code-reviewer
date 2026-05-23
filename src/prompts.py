@@ -37,6 +37,7 @@ IMPORTANT RULES:
 - Be specific, not generic
 - If code is good in a layer, say so clearly
 - Give exact line numbers or activity names when pointing issues
+- overall_score shoulf be in range of 0 to 10
 
 RESPONSE FORMAT:
 {
