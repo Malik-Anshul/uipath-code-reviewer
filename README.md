@@ -1,34 +1,47 @@
 # 🤖 UiPath Code Reviewer Agent
 
 An AI-powered code reviewer specifically built for UiPath RPA automations.  
-Built using Python, Groq API, and LLaMA 3.3 70B.
+The system analyzes automation code using LLM-powered multi-layer review pipelines.
+
+Built completely from scratch using Python, Groq API, and LLaMA 3.3 70B — without using any agent framework.
 
 ---
 
-## 📌 What It Does
+# 🚀 Features
 
-This project reviews UiPath automation code in **4 intelligent layers**:
+## ✅ Dual Input Support
+The agent supports two different ways to review code:
 
-### 🔹 Layer 1 — Syntax & Errors
+- Direct code paste
+- `.py` file path input using a File Reader Tool
+
+---
+
+## 🧠 4-Layer Intelligent Code Review
+
+### 🔹 Layer 1 — Syntax & Basic Errors
 - Detects syntax errors
 - Finds undefined variables
-- Identifies broken logic references
+- Identifies broken references
+- Detects basic runtime risks
 
-### 🔹 Layer 2 — Code Quality
-- Checks naming conventions
-- Reviews project structure
-- Detects redundant or repetitive code
+### 🔹 Layer 2 — Code Quality Analysis
+- Reviews naming conventions
+- Detects redundant code
+- Checks code structure
 - Suggests cleaner practices
 
-### 🔹 Layer 3 — Logic Analysis
+### 🔹 Layer 3 — Logic & Edge Case Analysis
 - Finds logical flaws
 - Detects possible edge cases
 - Reviews workflow consistency
+- Identifies risky conditions
 
 ### 🔹 Layer 4 — Suggestions & Best Practices
 - Gives optimization suggestions
 - Recommends UiPath best practices
-- Improves maintainability and readability
+- Improves maintainability
+- Enhances readability
 
 ---
 
@@ -40,6 +53,27 @@ This project reviews UiPath automation code in **4 intelligent layers**:
 | Groq API | LLM provider |
 | LLaMA 3.3 70B | AI model |
 | python-dotenv | Environment variable management |
+| JSON | Structured output parsing |
+
+---
+
+# 🧠 How The Agent Works
+
+```text
+User Input / File Path
+            ↓
+     File Reader Tool
+            ↓
+    Prompt Construction
+            ↓
+      Groq API Call
+            ↓
+    LLaMA 3.3 70B Model
+            ↓
+ Structured Multi-Layer Review
+            ↓
+     JSON Output Response
+```
 
 ---
 
@@ -49,13 +83,15 @@ This project reviews UiPath automation code in **4 intelligent layers**:
 uipath-code-reviewer/
 │
 ├── src/
-│   ├── agent.py          # Core agent logic
-│   └── prompts.py        # System prompts
+│   ├── agent.py           # Core agent logic
+│   ├── prompts.py         # System prompts
+│   ├── tools.py           # File reader tool
+│   └── parser.py          # JSON parsing & formatting
 │
-├── main.py               # Entry point
-├── requirements.txt      # Dependencies
-├── .env                  # API key (DO NOT PUSH)
-└── README.md             # Documentation
+├── main.py                # Entry point
+├── requirements.txt       # Dependencies
+├── .env                   # API key (DO NOT PUSH)
+└── README.md              # Documentation
 ```
 
 ---
@@ -118,23 +154,38 @@ python main.py
 
 # 🚀 How To Use
 
-1. Run the project:
+## 🔹 Option 1 — Direct Code Paste
+
+1. Run the project
 
 ```bash
 python main.py
 ```
 
-2. Select option **1** to review code
-
-3. Paste your UiPath automation code
-
+2. Select review option
+3. Paste UiPath/Python automation code
 4. Type:
 
 ```bash
 END
 ```
 
-5. Press Enter and get your detailed AI review ✅
+5. Get AI-generated review output ✅
+
+---
+
+## 🔹 Option 2 — File Path Input
+
+Provide the `.py` file path:
+
+```bash
+D:\Projects\automation.py
+```
+
+The File Reader Tool automatically:
+- Reads file contents
+- Sends code to the agent
+- Generates structured review output
 
 ---
 
@@ -142,8 +193,8 @@ END
 
 ```bash
 ==================================================
-⭐ Overall Score: 6/10
-📝 Summary: Code has some logic errors and quality issues
+⭐ Overall Score: 8/10
+📝 Summary: Code quality is good but some edge cases exist.
 
 🔍 LAYER 1 - SYNTAX
 {
@@ -156,39 +207,71 @@ END
 {
     "status": "fair",
     "issues": [
-        "variable naming",
-        "magic strings"
+        "magic strings",
+        "non-descriptive variable names"
     ],
-    "details": "Variable names are not descriptive..."
+    "details": "Some variable names can be improved."
+}
+
+🧠 LAYER 3 - LOGIC
+{
+    "status": "warning",
+    "issues": [
+        "possible null condition"
+    ],
+    "details": "Missing validation before loop execution."
+}
+
+💡 LAYER 4 - SUGGESTIONS
+{
+    "suggestions": [
+        "Add input validation",
+        "Use constants for reusable values",
+        "Improve exception handling"
+    ]
 }
 ==================================================
 ```
 
 ---
 
-# 💡 What I Learned
+# 💡 Key Learnings
 
-- How AI agents work from scratch
+Through this project, I explored:
+
+- How AI agents work internally
+- Tool integration in AI agents
 - Prompt engineering for structured outputs
-- Groq API integration
-- JSON parsing and error handling
-- Clean Python code architecture
+- JSON parsing & formatting
+- Error handling & edge cases
+- Modular Python architecture
+- LLM workflow design
 
 ---
 
 # 🔮 Future Improvements
 
-- [ ] Web UI using Streamlit
-- [ ] File upload support (`.py` files)
-- [ ] More UiPath-specific rules
-- [ ] Export review as PDF
-- [ ] Support for XAML files
+- [ ] Streamlit Web UI
+- [ ] Upload `.py` files directly
+- [ ] Support for `.xaml` UiPath workflows
+- [ ] Export review reports as PDF
+- [ ] More advanced UiPath-specific validations
+- [ ] Multi-agent review pipeline
+- [ ] AI-powered code scoring dashboard
+
+---
+
+# 📸 Demo
+
+<img width="1841" height="950" alt="Screenshot 2026-05-23 183221" src="https://github.com/user-attachments/assets/4978e878-4c77-4bf3-b85a-620b35c71e20" />
+
+
 
 ---
 
 # 👤 Author
 
-**Your Name**
+**Anshul Malik**
 
 - GitHub: https://github.com/Malik-Anshul/
 - LinkedIn: https://www.linkedin.com/in/anshu-malik-7ai/
@@ -197,4 +280,4 @@ END
 
 # ⭐ Support
 
-If you found this project useful, please give it a ⭐ on GitHub!
+If you found this project useful, consider giving it a ⭐ on GitHub!
